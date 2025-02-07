@@ -19,7 +19,7 @@ jobs:
       # Creates RPM metadata 
       - name: Update repository metadata
         run: |
-          createrepo .   
+          createrepo_c .   
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add repodata/
