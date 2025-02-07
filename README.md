@@ -13,11 +13,12 @@ run the following to register the repository
 
 ```bash
 echo '[Holbreich]
-name=aHolbreich Repository
+name=Holbreich Repository
 baseurl=https://aholbreich.github.io/rpm-repo/
 enabled=1
-gpgcheck=0' | sudo tee /etc/yum.repos.d/aHolbreich.repo
+gpgcheck=0' | sudo tee /etc/yum.repos.d/holbreich.repo
 
 ```
+
 ## Packages
  TODO
