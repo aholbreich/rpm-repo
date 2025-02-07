@@ -1,0 +1,26 @@
+name: Update RPM Repository
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-repo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install RPM tools
+        run: sudo apt-get install -y createrepo
+
+      - name: Update repository metadata
+        run: |
+          createrepo .
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add repodata/
+          git commit -m "Update RPM repository metadata"
+          git push
