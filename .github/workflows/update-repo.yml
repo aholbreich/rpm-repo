@@ -1,5 +1,9 @@
 name: Update RPM Repository
 
+# This seem to provide needed permissions to atomatic tokeng give below GITHUB_TOKEN
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -21,8 +25,10 @@ jobs:
       
       - name: Pushing results to git
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@github.com"
           git add repodata/
-          git commit -m "Update RPM repository metadata"
-          git push
+          git commit -m "Update RPM repository metadata" || echo "No changes to commit"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
