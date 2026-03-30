@@ -68,9 +68,6 @@ Currently published packages:
 
 Published RPMs currently present in this repository:
 
-- `adr-tool-0.0.2-1.noarch.rpm`
-- `adr-tool-0.0.2-19.7c50d5f.noarch.rpm`
-- `adr-tool-0.1.1-12.c500828.noarch.rpm`
 - `adr-tool-0.2.2-0.161b501.noarch.rpm`
 - `adr-tool-0.2.2-3.aa0cf84.noarch.rpm`
 - `adr-tool-0.3.0-1.2e9243a.noarch.rpm`
