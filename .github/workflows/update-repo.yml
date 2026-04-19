@@ -20,17 +20,68 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install RPM tools
-        run: sudo apt-get update && sudo apt-get install -y createrepo-c
+        run: sudo apt-get update && sudo apt-get install -y createrepo-c rpm
+
+      - name: Prune old RPM versions (keep latest 3 per package)
+        run: |
+          python3 - << 'EOF'
+          import glob, re, subprocess, sys
+          from collections import defaultdict
+
+          def parse_ver(s):
+              return tuple(int(x) if x.isdigit() else x for x in re.split(r'(\d+)', s))
+
+          rpms = sorted(glob.glob('*.rpm'))
+          if not rpms:
+              sys.exit(0)
+
+          out = subprocess.check_output(
+              ['rpm', '-qp', '--queryformat', '%{NAME}\t%{VERSION}\t%{RELEASE}\n'] + rpms,
+              text=True
+          )
+
+          groups = defaultdict(list)
+          for line, f in zip(out.strip().splitlines(), rpms):
+              name, ver, rel = line.split('\t')
+              groups[name].append((parse_ver(ver), parse_ver(rel), f))
+
+          for name, pkgs in groups.items():
+              pkgs.sort(key=lambda x: (x[0], x[1]))
+              for _, _, f in pkgs[:-3]:
+                  print(f'Removing old version: {f}')
+                  subprocess.run(['git', 'rm', f], check=True)
+          EOF
 
       - name: Update repository metadata
         run: createrepo_c --update .
 
-      - name: Commit updated metadata
+      - name: Update README package list
+        run: |
+          python3 - << 'EOF'
+          import glob, re
+
+          rpms = sorted(glob.glob('*.rpm'))
+          list_content = '\n'.join(f'- `{r}`' for r in rpms)
+
+          with open('README.md') as f:
+              content = f.read()
+
+          content = re.sub(
+              r'<!-- RPM-LIST-START -->.*?<!-- RPM-LIST-END -->',
+              f'<!-- RPM-LIST-START -->\n{list_content}\n<!-- RPM-LIST-END -->',
+              content, flags=re.DOTALL
+          )
+
+          with open('README.md', 'w') as f:
+              f.write(content)
+          EOF
+
+      - name: Commit updated metadata and docs
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@github.com"
-          git add repodata/
-          git commit -m "Update RPM repository metadata" || echo "No changes to commit"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add repodata/ README.md
+          git commit -m "Update RPM repository metadata and package list" || echo "No changes to commit"
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
