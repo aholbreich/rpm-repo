@@ -72,6 +72,7 @@ Published RPMs currently present in this repository:
 - `adr-tool-0.3.5-1.30b0000.noarch.rpm`
 - `adr-tool-0.4.0-0.6904ff3.noarch.rpm`
 - `adr-tool-0.6.0-0.db63dc2.noarch.rpm`
+- `tl-0.4.4-1.x86_64.rpm`
 <!-- RPM-LIST-END -->
 
 ## How it is maintained
