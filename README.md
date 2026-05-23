@@ -1,6 +1,6 @@
 # Holbreich RPM Repository
 
-This repository hosts RPM packages published by [Alexander Holbreich](https://alexander.holbreich.org/) and serves them via GitHub Pages.
+This repository hosts RPM packages published by [@aHolbreich](https://github.com/aholbreich) [Web](https://alexander.holbreich.org/) and serves them via GitHub Pages.
 
 Repository URL:
 
@@ -8,22 +8,7 @@ Repository URL:
 
 ## Purpose
 
-This is a simple personal RPM repository for distributing packages such as `adr-tool`.
-
-The repository contains:
-
-- RPM package files
-- generated `repodata/` metadata for DNF/YUM clients
-- repository documentation
-
-## Supported clients
-
-This repository is intended for RPM-based systems such as:
-
-- Fedora
-- Red Hat Enterprise Linux
-- CentOS
-- compatible distributions using `dnf` or `yum`
+Simple RPM repository for distributing packages such as `adr-tool` and `tl`.
 
 ## Installation
 
@@ -40,8 +25,26 @@ gpgcheck=0' | sudo tee /etc/yum.repos.d/holbreich.repo
 Then install packages as usual, for example:
 
 ```bash
-sudo dnf install adr-tool
+sudo dnf install adr-tool 
+sudo dnf install tl 
 ```
+
+## Available packages
+
+Currently published packages:
+
+- `adr-tool`
+- `tl`
+
+Published RPMs currently present in this repository:
+
+<!-- RPM-LIST-START -->
+- `adr-tool-0.3.5-1.30b0000.noarch.rpm`
+- `adr-tool-0.4.0-0.6904ff3.noarch.rpm`
+- `adr-tool-0.6.0-0.db63dc2.noarch.rpm`
+- `tl-0.4.4-1.x86_64.rpm`
+<!-- RPM-LIST-END -->
+
 
 ## Trust model
 
@@ -118,3 +121,4 @@ If package installation fails, verify that:
 ## Related projects
 
 - `adr-tool`: <https://github.com/aholbreich/adr-tool>
+- `tl`: <https://github.com/aholbreich/tl>
